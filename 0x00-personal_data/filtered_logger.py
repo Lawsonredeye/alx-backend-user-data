@@ -33,7 +33,7 @@ class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
 
-    REDACTION:str = "***"
+    REDACTION: str = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR: str = ";"
 
