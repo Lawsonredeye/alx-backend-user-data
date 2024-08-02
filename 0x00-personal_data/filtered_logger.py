@@ -37,7 +37,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR: str = ";"
 
-    def __init__(self, fields: tuple[str]):
+    def __init__(self, fields: tuple):
         """class initializer
         """
         self.fields: List[str] = list(fields)
