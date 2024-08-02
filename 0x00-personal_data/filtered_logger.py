@@ -4,6 +4,7 @@
 
 import logging
 import re
+from typing import List
 
 
 # def filter_datum(fields: str, redaction: str,
@@ -20,7 +21,7 @@ import re
 #         new_message.append(mess)
 #     return f"{separator}".join(new_message)
 
-def filter_datum(fields: list[str], redaction: str,
+def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """Obfuscate vital information in a string but splitting the string
     and filter through the string."""
