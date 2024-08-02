@@ -4,7 +4,7 @@
 
 import logging
 import re
-from typing import List
+from typing import List, Literal
 
 
 # def filter_datum(fields: str, redaction: str,
@@ -25,7 +25,7 @@ def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """Obfuscate vital information in a string but splitting the string
     and filter through the string."""
-    pattern = f"({'|'.join(fields)})=.*?(?={separator}|$)"
+    pattern: str = f"({'|'.join(fields)})=.*?(?={separator}|$)"
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
 
 
@@ -33,20 +33,20 @@ class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
 
-    REDACTION = "***"
+    REDACTION:str = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
-    SEPARATOR = ";"
+    SEPARATOR: str = ";"
 
     def __init__(self, fields: tuple[str]):
         """class initializer
         """
-        self.fields = list(fields)
+        self.fields: List[str] = list(fields)
         super(RedactingFormatter, self).__init__(self.FORMAT)
 
     def format(self, record: logging.LogRecord) -> str:
         """converts the logging message into obfuscated data
         which would be protected"""
-        messages = record.getMessage()
+        messages: str = record.getMessage()
         filter: str = filter_datum(self.fields, self.REDACTION,
                                    messages, self.SEPARATOR)
         record.msg = filter
