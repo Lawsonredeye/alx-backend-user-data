@@ -41,4 +41,4 @@ def forbidden():
     Raises:
       forbidden to non admin users
     """
-    return jsonify({"error": "Forbidden"}), 403
+    abort(403)
