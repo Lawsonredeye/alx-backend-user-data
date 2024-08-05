@@ -11,11 +11,11 @@ class Auth:
     """
     def require_auth(self, path: str, excluded_paths: List[str]):
         """checks for auth and returns false"""
-        if path == None or excluded_paths is None:
+        if path is None or excluded_paths is None:
             return True
-        if excluded_paths == []:
+        if excluded_paths is []:
             return True
-        if path.endswith('/') == False:
+        if path.endswith('/') is False:
             path += "/"
         if path in excluded_paths:
             return False
