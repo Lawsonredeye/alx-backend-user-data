@@ -27,9 +27,18 @@ def stats() -> str:
 
 
 @app_views.route("/unauthorized")
-def not_allowed():
+def unauthorized():
     """GET /api/v1/unauthorized
     Raises:
       A 401 Error when accessed
     """
     abort(401)
+
+
+@app_views.route("/forbidden")
+def forbidden():
+    """GET /api/v1/forbidden
+    Raises:
+      forbidden to non admin users
+    """
+    abort(403)
