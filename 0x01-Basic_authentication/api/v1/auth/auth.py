@@ -38,3 +38,7 @@ class Auth:
         """
         if request is None or request is []:
             return None
+
+class BasicAuth(Auth):
+    """Inherits from the Auth
+    """

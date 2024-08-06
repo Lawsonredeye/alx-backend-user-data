@@ -15,7 +15,10 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 auth = None
 auth = os.getenv("AUTH_TYPE")
-if auth:
+if auth == "basic_auth":
+    from api.v1.auth.auth import BasicAuth
+    auth = BasicAuth()
+else:
     from api.v1.auth.auth import Auth
     auth = Auth()
 
@@ -27,7 +30,7 @@ def before_request():
         Aborts when the header is not found
     """
     path_list: list[str] = ['/api/v1/status/',
-                            '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    '/api/v1/unauthorized/', '/api/v1/forbidden/']
     path: str = request.path
     if auth.require_auth(path, path_list):
         if auth.authorization_header(request) is None:
