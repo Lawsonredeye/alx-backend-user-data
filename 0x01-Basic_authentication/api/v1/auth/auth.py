@@ -43,3 +43,4 @@ class Auth:
 class BasicAuth(Auth):
     """Inherits from the Auth
     """
+    pass
