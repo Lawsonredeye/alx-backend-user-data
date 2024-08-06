@@ -13,6 +13,27 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
+auth = None
+auth = os.getenv("AUTH_TYPE")
+if auth:
+    from api.v1.auth.auth import Auth
+    auth = Auth()
+
+@app.before_request
+def before_request():
+    """Handler for case where an auth is passed and has to be validated
+    Raises:
+        Aborts when the header is not found
+    """
+    path_list = ['/api/v1/status/',
+                    '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    path: str = request.path
+    if auth.require_auth(path, path_list):
+        if auth.authorization_header(request) is None:
+            abort(401)
+        if auth.current_user(request) is None:
+            abort(403)
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
