@@ -30,7 +30,7 @@ def before_request():
         Aborts when the header is not found
     """
     path_list: list[str] = ['/api/v1/status/',
-    '/api/v1/unauthorized/', '/api/v1/forbidden/']
+                            '/api/v1/unauthorized/', '/api/v1/forbidden/']
     path: str = request.path
     if auth.require_auth(path, path_list):
         if auth.authorization_header(request) is None:
