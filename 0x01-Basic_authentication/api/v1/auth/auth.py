@@ -40,7 +40,7 @@ class Auth:
             return None
 
 
-class BasicAuth(Auth):
-    """Inherits from the Auth
-    """
-    pass
+# class BasicAuth(Auth):
+#     """Inherits from the Auth
+#     """
+#     pass
