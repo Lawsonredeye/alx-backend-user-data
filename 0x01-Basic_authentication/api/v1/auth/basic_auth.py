@@ -63,7 +63,7 @@ class BasicAuth(Auth):
 
     def user_object_from_credentials(self, user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
-        """checks user
+        """checks user's credential
         """
         if user_email is None or not isinstance(user_email, str):
             return None
@@ -75,13 +75,11 @@ class BasicAuth(Auth):
         user = User()
         if user.search({"email": user_email}) != user_email:
                 return None
-        # if user.search(user_email) is None:
-        #         return None
-        
+
         if user_pwd is not user.is_valid_password(user_pwd):
             return None
         return user
-    
+
     def current_user(self, request=None) -> TypeVar('User'):
         """Fetch current user
         """
