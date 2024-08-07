@@ -71,14 +71,15 @@ class BasicAuth(Auth):
             return None
         if user_email == "" or user_pwd == "":
             return None
-
-        user = User()
-        if user.search({"email": user_email}) != user_email:
-                return None
-
-        if user_pwd is not user.is_valid_password(user_pwd):
+        # Store the data return from filter in an object
+        user = User.search({"email": user_email})
+        # check if the user obj is []
+        if user == []:
             return None
-        return user
+
+        if not user[0].is_valid_password(user_pwd):
+            return None
+        return user[0]
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Fetch current user
