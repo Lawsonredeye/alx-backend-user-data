@@ -5,8 +5,8 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
-
 Base = declarative_base()
+
 
 class User(Base):
     """Db table to store user datas and other records"""
