@@ -69,7 +69,8 @@ class DB:
         try:
             user = self.find_user_by(id=user_id)
             for key, value in kwargs.items():
-                if key in ["email", "hashed_password", "session_id", "reset_token"]:
+                if key in ["email", "hashed_password",
+                           "session_id", "reset_token"]:
                     setattr(user, key, value)
             self._session.commit()
         except ValueError:
