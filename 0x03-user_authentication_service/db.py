@@ -5,9 +5,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
 
 from user import Base
 from user import User
+from typing import Dict
 
 
 class DB:
@@ -42,3 +44,22 @@ class DB:
         session.add(user_)
         session.commit()
         return user_
+
+    def find_user_by(self, **kwargs: Dict) -> User:
+        """Search db for arguments passed and returns a user object
+        with the db data
+        ------
+        Returns
+            user: User : instance which contains the searched data
+        -------
+        Raises:
+            NoResultFound: If args cant be found
+            InvalidRequestError: if kwargs doesnt have any value
+        """
+        session = self._session
+        try:
+            users = session.query(User).filter_by(**kwargs).one()
+        except (InvalidRequestError, NoResultFound):
+            raise
+
+        return users
