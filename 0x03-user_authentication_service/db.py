@@ -46,16 +46,17 @@ class DB:
         session.commit()
         return user_
 
-    def find_user_by(self, **kwargs: Dict) -> User:
+    def find_user_by(self, **kwargs: str) -> User:
         """Search db for arguments passed and returns a user object
         with the db data
         ------
         Returns
             user: User : instance which contains the searched data
         -------
-        Raises:
+        Raises
             NoResultFound: If args cant be found
             InvalidRequestError: if kwargs doesnt have any value
+        ------
         """
         session = self._session
         try:
