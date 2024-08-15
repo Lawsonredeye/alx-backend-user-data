@@ -5,7 +5,7 @@
 from flask import Flask
 from flask import jsonify
 from auth import Auth
-from flask import request
+from flask import request, Response
 
 AUTH = Auth()
 app = Flask(__name__)
@@ -18,7 +18,7 @@ def index():
 
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def users():
+def users() -> Response:
     """registers new users into the db with its password hashed
     """
     email: str = request.form.get("email")
