@@ -21,8 +21,8 @@ def index():
 def users():
     """registers new users into the db with its password hashed
     """
-    email = request.form.get("email", None)
-    password = request.form.get("password", None)
+    email: str = request.form.get("email")
+    password: str = request.form.get("password")
     try:
         AUTH.register_user(email, password)
         return jsonify({"email": email, "message": "user created"})
