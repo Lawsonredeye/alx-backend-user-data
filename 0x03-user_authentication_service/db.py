@@ -10,7 +10,7 @@ from sqlalchemy.exc import NoResultFound
 
 from user import Base
 from user import User
-from typing import Dict
+from typing import Dict, Any
 
 
 class DB:
@@ -20,7 +20,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -40,13 +40,12 @@ class DB:
         ---
             User: User object
         """
-        session = self._session
         user_ = User(email=email, hashed_password=hashed_password)
-        session.add(user_)
-        session.commit()
+        self._session.add(user_)
+        self._session.commit()
         return user_
 
-    def find_user_by(self, **kwargs: str) -> User:
+    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
         """Search db for arguments passed and returns a user object
         with the db data
         ------
@@ -58,10 +57,20 @@ class DB:
             InvalidRequestError: if kwargs doesnt have any value
         ------
         """
-        session = self._session
         try:
-            users = session.query(User).filter_by(**kwargs).one()
+            # session = self._session
+            users = self._session.query(User).filter_by(**kwargs).one()
+            return users
         except (InvalidRequestError, NoResultFound):
             raise
 
-        return users
+    def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
+        """Updates a user's attributes by user ID."""
+        try:
+            user = self.find_user_by(id=user_id)
+            for key, value in kwargs.items():
+                if key in ["email", "hashed_password", "session_id", "reset_token"]:
+                    setattr(user, key, value)
+            self._session.commit()
+        except ValueError:
+            raise
