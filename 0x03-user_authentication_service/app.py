@@ -3,7 +3,7 @@
 """
 
 from flask import Flask
-from flask import jsonify
+from flask import jsonify, abort
 from auth import Auth
 from flask import request, Response
 
@@ -28,6 +28,21 @@ def users() -> Response:
         return jsonify({"email": email, "message": "user created"}), 201
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
+
+
+@app.route('/sessions', methods=["POST"])
+def login():
+    """Handles user login by validating email
+    Returns:
+    Bool
+    """
+    email = request.form.get("email")
+    password = request.form.get("password")
+    try:
+        res = AUTH.valid_login(email, password)
+        return jsonify({"email": email, "message": "logged in"})
+    except Exception as e:
+        abort(401)
 
 
 if __name__ == "__main__":
