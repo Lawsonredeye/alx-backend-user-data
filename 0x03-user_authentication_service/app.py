@@ -3,7 +3,7 @@
 """
 
 from flask import Flask
-from flask import jsonify, abort
+from flask import jsonify, abort, make_response
 from auth import Auth
 from flask import request, Response
 
@@ -38,10 +38,18 @@ def login():
     """
     email = request.form.get("email")
     password = request.form.get("password")
-    try:
-        res = AUTH.valid_login(email, password)
+    # try:
+    #     res = AUTH.valid_login(email, password)
+    #     return jsonify({"email": email, "message": "logged in"})
+    # except Exception as e:
+    #     abort(401)
+    res = AUTH.valid_login(email, password)
+    if res:
+        session = AUTH.create_session(email)
+        resp = make_response()
+        resp.set_cookie("session_id", session)
         return jsonify({"email": email, "message": "logged in"})
-    except Exception as e:
+    else:
         abort(401)
 
 
