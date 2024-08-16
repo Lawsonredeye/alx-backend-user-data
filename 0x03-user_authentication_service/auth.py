@@ -55,12 +55,16 @@ class Auth:
     
     def create_session(self, email: str) -> str:
         """Creates session id for new users
+
         Returns
             str: session_id with the corresponding user
+
+        Raises
+            Exception: to catch all errors related to NoResultFound
         """
         try:
             user_ = self._db.find_user_by(email=email)
             user_.session_id = self._generate_uuid()
             return user_.session_id
-        except:
-            pass
+        except Exception as e:
+            return None
