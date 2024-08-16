@@ -52,7 +52,7 @@ class Auth:
         """UUID generator
         """
         return str(uuid.uuid4())
-    
+
     def create_session(self, email: str) -> str:
         """Creates session id for new users
 
