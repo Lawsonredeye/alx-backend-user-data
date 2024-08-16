@@ -34,7 +34,7 @@ class Auth:
             hash_pwd = _hash_password(password)
             user: User = self._db.add_user(email, hash_pwd)
             return user
-    
+
     def valid_login(self, email: str, password: str) -> bool:
         """locates and validate if user email exists and checks hashed
         password if it matches unhashed passord.
@@ -45,9 +45,8 @@ class Auth:
             hashed = password.encode("UTF-8")
             response = bcrypt.checkpw(hashed, user_found.hashed_password)
             return response
-        except:
+        except Exception as e:
             return False
-
 
     def _generate_uuid(self) -> str:
         """UUID generator
